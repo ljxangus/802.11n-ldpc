@@ -51,11 +51,12 @@ end
 
 %% SIMULATION %%
 
-if(~matlabpool('size') && parallelComputation)
-    matlabpool open;    % Enable parallel computation                   
+if parallelComputation %~matlabpool('size') &&
+    parpool open;    % Enable parallel computation                   
 end
 
 tic
+% Check the 
 if ~preset
     all_ber_ldpc = zeros(length(ldpcIter),iter);
     all_fer_ldpc = zeros(length(ldpcIter),iter);
@@ -85,10 +86,10 @@ else
     ber_ldpc = sum(all_ber_ldpc,3)/iter;
     fer_ldpc = sum(all_fer_ldpc,3)/iter;
 end
-time = toc        % Get the simulation time
+time = toc;        % Get the simulation time
 
-if(matlabpool('size') && parallelComputation)
-    matlabpool close;
+if parallelComputation) % ~matlabpool('size') &&
+    parpool close;
 end
 
 %% SAVE DATA %%
